@@ -34,7 +34,7 @@ The first three processes are the same in both pipelines.
 1. extract samples
 2. extract barcodes
 3. calculate lg Fold Change and -log10 P value between the initial and experimental group.
-#### For CombiGEM (This pipeline supports pairwise screens only)
+#### For CombiGEM (supports screens with two or more dimensions)
 4. calculate gene-level genetic interaction
 5. calculate Dunnett test p-values for each gene-level combinations
 ```
@@ -45,16 +45,28 @@ nextflow CombiGEM.nf \
       --pattern <1st 7 letters from the fastq file> \ 
       --dimensions <number of gRNAs> \ 
       --linker <barcode-connecting sequence>
+      --linker <dummy sgRNA names separated by "," (e.g.: 1,2)>
 ```
 #### For CombiSEAL (coming soon)
 4. epistasis calculation (based on FACS sorting data)
 
-## If ran successfully, here is what you will see:
-![](success_run.png)
+## Try running the pipeline with the test-dataset
+The test dataset is a minimal dataset that contains 3 percent of all reads from the ovarian cancer 3-way analysis described in the [Cell Reports study by Zhou et al.](https://www.cell.com/cell-reports/fulltext/S2211-1247(20)31005-6#secsectitle0070)
+1. clone/download this directory to your computer
+2. get to the downloaded directory from your command line window
+3. type `gunzip test-dataset/OVARIAN_testdataset.fastq.gz`
+4. run the pipeline with nextflow by typing the following:
+```
+nextflow CombiGEM.nf --fastq test-dataset/OVARIAN_testdataset.fastq --sampinfo test-dataset/sampleInfo.csv --barcodes test-dataset/barcode_list.csv --pattern @D00691 --dimensions 3 --linker CAATTC --dummysgs 1,2
+```
+#### If ran successfully, these are what you will see:
+![](test-dataset/successful_run_testdataset.png)
+![](test-dataset/successful_run_outputs.png)
 
 ## Publications
 #### CombiGEM-CRISPR
 1. https://www.nature.com/articles/nbt.3326
 2. https://www.pnas.org/content/113/9/2544.short
+3. https://www.cell.com/cell-reports/fulltext/S2211-1247(20)31005-6#secsectitle0070
 #### CombiSEAL
 1. https://www.nature.com/articles/s41592-019-0473-0
